@@ -5,7 +5,7 @@ var Connection = require('mongodb').Connection;
 var Server = require('mongodb').Server;
 
 CustomerProvider = function(host, port) {
-	
+
 	this.db = new Db('customers', new Server(host, port));
 	this.db.open(function(){});
 
@@ -20,7 +20,7 @@ CustomerProvider = function(host, port) {
 			}
 		});
 	};
-	
+
 	this.fetchCustomerById = function(id, cb) {
 		this.db.collection(customersTable, function(error, customers) {
 			if (error) {
@@ -34,41 +34,41 @@ CustomerProvider = function(host, port) {
 			}
 		});
 	};
-	
-	this.insertCustomer = function(user, cb) {
-		console.log('inserting user: ' + user);
+
+	this.insertCustomer = function(customer, cb) {
+		console.log('inserting customer: ' + customer);
 		this.db.collection(customersTable, function(error, customers) {
 			if (error) {
 				cb(error, null);
 			} else {
-				customers.insert([user], function() {
-					cb(null, user);
+				customers.insert([customer], function() {
+					cb(null, customer);
 				});
 			}
 		});
 	};
-	
-	this.updateCustomer = function(user, cb) {
-		console.log('updateCustomer');
+
+	this.updateCustomer = function(customer, cb) {
+		console.log('updateCustomer'+customer._id);
 		this.db.collection(customersTable, function(error, customers) {
 			if (error) {
 				cb(error, null);
 			} else {
-				customers.update({_id:customers.db.bson_serializer.ObjectID.createFromHexString(user._id)}, 
-					{name:user.name, state:user.state, city:user.city}, 
+				customers.update({_id:customers.db.bson_serializer.ObjectID.createFromHexString(customer._id)},
+					{name:customer.name, address:customer.address, email:customer.email},
 					function(error, result) {
 						cb(error, result);
 				});
 			}
 		});
 	};
-	
+
 	this.deleteCustomer = function(id, cb) {
 		this.db.collection(customersTable, function(error, customers) {
 			if (error) {
 				cb(error, null);
 			} else {
-				customers.remove({_id:customers.db.bson_serializer.ObjectID.createFromHexString(id)}, 
+				customers.remove({_id:customers.db.bson_serializer.ObjectID.createFromHexString(id)},
 					function(error, result) {
 						cb(error, result);
 				});

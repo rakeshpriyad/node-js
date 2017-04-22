@@ -18,7 +18,7 @@ exports.list = function(req, res){
 			//res.send(customers);
 			res.render('customers',{page_title:"Customers ",data:customers});
 	});
-  
+
 };
 
 
@@ -31,26 +31,22 @@ exports.get = function(req, res){
 			}
 		});
 	};
-	
+
 exports.add = function(req, res){
   res.render('add_customer',{page_title:"Add Customers "});
 };
 
 exports.edit = function(req, res){
-    
+
     var id = req.params.id;
-    //var id= "ObjectId(\"" + req.params.id +"\")";
 	customerProvider.fetchCustomerById(req.params.id, function(error, customer) {
-			
-				//res.send(customer);
 				res.render('edit_customer',{page_title:"Edit Customers ",customer});
-			
 		});
 };
 
 /*Save the customer*/
 exports.save = function(req,res){
-    
+
     var input = JSON.parse(JSON.stringify(req.body));
 		console.log('posting customer');
 		console.log(req.body);
@@ -64,23 +60,36 @@ exports.save = function(req,res){
 };
 
 exports.save_edit = function(req,res){
-    
+
     var input = JSON.parse(JSON.stringify(req.body));
-    var id = req.params.id;
-    customerProvider.fetchCustomerById(req.params.id, function(error, customers) {
-			if (error)
-				console.log("Error Updating : %s ",err );
-			
-			res.redirect('/customers');
-			
-		});
+		var id = req.params.id;
+		var customers = {
+            _id     : id,
+            name    : input.name,
+            address : input.address,
+            email   : input.email,
+            phone   : input.phone
+
+        };
+    console.log("Update Updating : %s ",id);
+		console.log("Update Updating : %s ",input.name);
+
+			customerProvider.updateCustomer(customers, function(error, cs) {
+				console.log("Error Updating : %s ",req.body );
+				if (error)
+					console.log("Error Updating : %s ",err );
+
+				res.redirect('/customers');
+
+			});
+
 };
 
 
 exports.delete_customer = function(req,res){
-          
+
      var id = req.params.id;
-    
+
 	customerProvider.deleteCustomer(req.params.id, function(error, customers) {
 			if (error) {
 				res.send(error, 404);
@@ -88,5 +97,5 @@ exports.delete_customer = function(req,res){
 				res.redirect('/customers');
 			}
 		});
-     
+
 };
