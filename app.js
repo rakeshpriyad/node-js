@@ -9,14 +9,9 @@ var http = require('http');
 var path = require('path');
 
 //load customers route
-var customers = require('./routes/customers'); 
+var customers = require('./routes/customers');
 var app = express();
 
-var mongoServer = 'localhost';
-var mongoPort = 27017;
-var CustomerProvider = require('./customerProvider-mongodb').CustomerProvider;
-var customerProvider = new CustomerProvider(mongoServer, mongoPort);
-app.set('customerProvider', customerProvider);
 
 // all environments
 app.set('port', process.env.PORT || 4300);
@@ -37,7 +32,7 @@ if ('development' == app.get('env')) {
 
 /*------------------------------------------
     connection peer, register as middleware
-    type koneksi : single,pool and request 
+    type koneksi : single,pool and request
 -------------------------------------------*/
 
 
