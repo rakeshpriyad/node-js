@@ -21,6 +21,17 @@ exports.list = function(req, res){
   
 };
 
+
+exports.get = function(req, res){
+		customerProvider.fetchCustomerById(req.params.id, function(error, customer) {
+			if (customer == null) {
+				res.send(error, 404);
+			} else {
+				res.send(customer);
+			}
+		});
+	};
+	
 exports.add = function(req, res){
   res.render('add_customer',{page_title:"Add Customers "});
 };
@@ -28,12 +39,11 @@ exports.add = function(req, res){
 exports.edit = function(req, res){
     
     var id = req.params.id;
-    
-	customerProvider.fetchCustomerById(req.params.id, function(error, customers) {
-			if (error)
-				console.log("Error Updating : %s ",error );
+    //var id= "ObjectId(\"" + req.params.id +"\")";
+	customerProvider.fetchCustomerById(req.params.id, function(error, customer) {
 			
-			res.render('edit_customer',{page_title:"Edit Customers ",data:customers});
+				//res.send(customer);
+				res.render('edit_customer',{page_title:"Edit Customers ",customer});
 			
 		});
 };
@@ -71,7 +81,7 @@ exports.delete_customer = function(req,res){
           
      var id = req.params.id;
     
-	customerProvider.deleteCustomer(req.params.id, function(error, user) {
+	customerProvider.deleteCustomer(req.params.id, function(error, customers) {
 			if (error) {
 				res.send(error, 404);
 			} else {

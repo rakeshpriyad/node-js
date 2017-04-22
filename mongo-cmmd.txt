@@ -1,0 +1,11 @@
+db.customers.find().pretty()
+
+db.customers.find(ObjectId(58faf238308ea5275060f09e)).pretty()
+
+db.customers.find({"_id" : ObjectId("58faf238308ea5275060f09e")}).pretty()
+
+db.customers.find({ "_id": "58faf238308ea5275060f09e" }).pretty()
+
+{ "_id": "58faf238308ea5275060f09e" }
+
+db.customers.findOne({"_id":ObjectId("58faf238308ea5275060f09e")})

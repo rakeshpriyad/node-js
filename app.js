@@ -46,6 +46,7 @@ if ('development' == app.get('env')) {
 
 app.get('/', routes.index);
 
+app.get('/customers/get/:id', customers.get);
 app.get('/customers', customers.list);
 app.get('/customers/add', customers.add);
 app.post('/customers/add', customers.save);

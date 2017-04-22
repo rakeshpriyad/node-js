@@ -6,11 +6,12 @@
     "start": "node app.js"
   },
   "dependencies": {
+    "bson": "^1.0.4",
     "ejs": "^1.0.0",
     "express": "3.5.1",
     "express-myconnection": "1.0.4",
     "jade": "*",
     "mongoose": "^4.9.5",
-    "mysql": "2.2.0"
+	"mongodb":"*"
   }
 }
